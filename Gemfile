@@ -56,3 +56,8 @@ end
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 gem 'devise'
+gem 'jquery-rails'
+gem 'devise-i18n'
+gem 'devise-i18n-views'
+gem 'rails-i18n', '~> 6.0'
+gem 'devise-bootstrap-views'

@@ -1,5 +1,8 @@
 Rails.application.routes.draw do
 
-  devise_for :users
+  # プロフィール編集をパスワード無しにする
+  devise_for :users, controllers: {
+    registrations: "users/registrations"
+  }
   root "homes#top"
 end
