@@ -1,0 +1,64 @@
+<br>
+<div class="jumbotron">
+  <h1 class="display-4">投稿フォーム</h1>
+  <p class="lead">おすすめの参考書を紹介して共有しよう</p>
+  <hr class="my-4">
+  <p>共有された参考書を調べて自分の力に！<br>
+</div>
+<br>
+<%= form_with model: @book, local: true do |f| %>
+  <%= f.hidden_field :user_id, value: current_user.id %>
+
+  <table class="table table-borderless">
+
+    <tr>
+      <th>
+        画像
+      </th>
+      <td>
+        <%= f.attachment_field :image %>
+      </td>
+    
+    </tr>
+    <tr>
+      <th>
+        <%= f.label :タイトル %>
+      </th>
+      <td>
+        <%= f.text_field :title, class: "form-control" %>
+      </td>
+    </tr>
+
+    <tr>
+      <th>
+        <%= f.label :著者 %>
+      </th>
+      <td>
+        <%= f.text_field :author, class: "form-control" %>
+      </td>
+    </tr>
+
+    <tr>
+      <th>
+        <%= f.label :カテゴリ %>
+      </th>
+      <td>
+        <%= f.text_field :category_id, class: "form-control" %>
+      </td>
+    </tr>
+
+    <tr>
+      <th>
+        <%= f.label :説明 %>
+      </th>
+      <td>
+        <%= f.text_field :body, class: "form-control" %>
+      </td>
+    </tr>
+  </table>
+
+  <div class="actions text-center">
+    <%= f.submit "登録", class: "btn btn-primary" %><br>
+  </div>
+<% end %>
+<br>

@@ -1,0 +1,29 @@
+<br>
+<div class="jumbotron">
+  <h1 class="display-4">ようこそ<%= current_user.name %>さん！</h1>
+  <p class="lead">おすすめの参考書を紹介して共有しよう</p>
+  <hr class="my-4">
+  <p>共有された参考書を調べて自分の力に！<br></p>
+  <!--<a class="btn btn-primary btn-lg" href="/users/sign_up" role="button">新規登録</a>-->
+</div>
+
+<div class="card-deck">
+  <% @books.each do |book| %>
+    <div class="col-4">
+      <div class="card">
+        <%= attachment_image_tag book, :image, size: "318x300" %>
+        <div class="card-body">
+          <h5 class="card-title"><%= book.title %></h5>
+          <p class="card-author"><%= book.author %></p>
+          <p class="card-text"><%= book.body %></p>
+          <p class="card-text"><small class="text-muted"><%= book.created_at %></small></p>
+          <% if book.user_id == current_user.id %>
+            <%= link_to "編集", edit_book_path(book) %>
+            <%= link_to "削除", book_path(book), method: :delete, data: {confirm: "本当に削除しますか？"} %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>
+<br>

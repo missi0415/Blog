@@ -10,7 +10,6 @@ ja:
         current_sign_in_at: 現在のログイン時刻
         current_sign_in_ip: 現在のログインIPアドレス
         name: 名前
-        nickname: ニックネーム
         email: Eメール
         encrypted_password: 暗号化パスワード
         failed_attempts: 失敗したログイン試行回数

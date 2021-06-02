@@ -5,4 +5,8 @@ Rails.application.routes.draw do
     registrations: "users/registrations"
   }
   root "homes#top"
+
+  resources :users
+  resources :books
+  resources :category
 end
