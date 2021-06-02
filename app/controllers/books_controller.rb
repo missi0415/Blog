@@ -5,16 +5,17 @@ class BooksController < ApplicationController
   end
 
   def show
-
+    @book = Book.find(params[:id])
   end
 
   def new
     @book = Book.new
+    @categories = Category.all
   end
 
   def edit
     @book = Book.find(params[:id])
-
+    @categories = Category.all
   end
 
   def create
@@ -23,12 +24,18 @@ class BooksController < ApplicationController
       flash[:notice] = "投稿しました。"
       redirect_to books_path
     else
+      @categories = Category.all
       render :new
     end
   end
 
   def update
-
+    @book = Book.find(params[:id])
+    if @book.update(book_params)
+      redirect_to books_path, notice: "編集を登録しました。"
+    else
+      render :edit
+    end
   end
 
   def destroy
@@ -36,7 +43,6 @@ class BooksController < ApplicationController
     @book.destroy
     redirect_back(fallback_location: root_path)
     flash[:notice] = "投稿を削除しました。"
-
   end
 
   private

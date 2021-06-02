@@ -6,3 +6,24 @@
   <p>共有された参考書を調べて自分の力に！<br>
 </div>
 <br>
+
+<div class="card-deck">
+  <% @users.each do |user| %>
+      <div class="col-4">
+      <%= link_to user_path(user), class: "link text-dark" do %>
+        <div class="card">
+          <%= attachment_image_tag user, :image, size: "318x300" %>
+          <div class="card-body">
+            <h5 class="card-name"><%= user.name %></h5>
+            <hr>
+            <h5>投稿書籍</h5>
+            <% user.books.each do |book| %>
+              <p class="card-books"><%= book.title %></p>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+      </div>
+  <% end %>
+</div>
+<br>

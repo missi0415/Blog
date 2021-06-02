@@ -1,8 +1,30 @@
 <br>
 <div class="jumbotron">
-  <h1 class="display-4">投稿フォーム</h1>
-  <p class="lead">おすすめの参考書を紹介して共有しよう</p>
+  <h1 class="display-4">投稿詳細</h1>
+  <p class="lead"></p>
   <hr class="my-4">
   <p>共有された参考書を調べて自分の力に！<br>
 </div>
 <br>
+<div class="card-deck">
+  <div class="col-8 mx-auto">
+    <div class="card">
+      <%= attachment_image_tag @book, :image, size: "698x500" %>
+      <div class="card-body">
+        <h5 class="card-title"><%= @book.title %></h5>
+        <p class="card-author"><%= @book.author %></p>
+        <hr>
+        <p class="card-text"><%= @book.body %></p>
+        <p class="card-text"><small class="text-muted"><%= @book.created_at %></small></p>
+        <% if @book.user_id == current_user.id %>
+          <%= link_to "編集", edit_book_path(@book) %>
+          <%= link_to "削除", book_path(@book), method: :delete, data: {confirm: "本当に削除しますか？"} %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+<br>
+
+
+<%= render "comment_form", comment: @comment %>
