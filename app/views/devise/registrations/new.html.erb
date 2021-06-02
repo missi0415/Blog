@@ -1,33 +1,57 @@
-<h2>新規登録</h2>
+<div class="col-8 mx-auto">
 
-<%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+  <h2>新規登録</h2>
 
-  <div class="field">
-    <%= f.label :名前 %><br />
-    <%= f.text_field :name %>
-  </div>
+  <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+    <%= bootstrap_devise_error_messages! %>
+    <%= render "layouts/flash" %>
 
-  <div class="field">
-    <%= f.label :メールアドレス %><br />
-    <%= f.email_field :email %>
-  </div>
+    <table class="table table-borderless">
+      <tr>
+        <th>
+          <%= f.label :名前 %>
+        </th>
+        <td>
+          <%= f.text_field :name, class: "form-control" %>
+        </td>
+      </tr>
 
-  <div class="field">
-    <%= f.label :パスワード %>
-    <% if @minimum_password_length %>
-    <em>(<%= @minimum_password_length %> 文字以上)</em>
-    <% end %><br />
-    <%= f.password_field :password %>
-  </div>
 
-  <div class="field">
-    <%= f.label :確認用パスワード %><br />
-    <%= f.password_field :password_confirmation %>
-  </div>
+      <tr>
+        <th>
+          <%= f.label :メールアドレス %>
+        </th>
+        <td>
+          <%= f.email_field :email, class: "form-control" %>
+        </td>
+      </tr>
 
-  <div class="actions">
-    <%= f.submit "登録", class: "btn btn-primary" %>
-  </div>
-<% end %>
+      <tr>
+        <th>
+          <%= f.label :パスワード %>
+          <% if @minimum_password_length %>
+          <em>(<%= @minimum_password_length %> 文字以上)</em>
+          <% end %>
+        </th>
+        <td>
+          <%= f.password_field :password, class: "form-control" %>
+        </td>
+      </tr>
 
-<%= render "devise/shared/links" %>
+      <tr>
+        <th>
+          <%= f.label :確認用パスワード %>
+        </th>
+        <td>
+          <%= f.password_field :password_confirmation, class: "form-control" %>
+        </td>
+      </tr>
+    </table>
+
+    <div class="actions text-center">
+      <%= f.submit "登録", class: "btn btn-primary" %><br>
+      <%= render "devise/shared/links" %>
+    </div>
+  <% end %>
+</div>
+

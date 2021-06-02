@@ -11,8 +11,10 @@
   </head>
 
   <body>
-    <%= bootstrap_devise_error_messages! %>
-    <%= render "layouts/flash" %>
-    <%= yield %>
+    <%= render "layouts/header" %>
+    <div class="container">
+      <%= yield %>
+    </div>
+      <%= render "layouts/footer" %>
   </body>
 </html>
