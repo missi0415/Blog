@@ -7,6 +7,8 @@ Rails.application.routes.draw do
   root "homes#top"
 
   resources :users
-  resources :books
-  resources :category
+  resources :books do
+    resources :comments, only: [:create, :destroy, :update]
+  end
+  resources :categories
 end

@@ -27,4 +27,5 @@
 <br>
 
 
-<%= render "comment_form", comment: @comment %>
+<%= render "comments/comment_form", comment: @comment, book: @book %>
+<%= render "comments/comment", comments: @comments, book: @book, user: @user %>

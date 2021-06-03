@@ -9,7 +9,7 @@
 <%= form_with model: @book, local: true do |f| %>
   <%= f.hidden_field :user_id, value: current_user.id %>
 
-  <table class="table table-borderless">
+  <table class="table table-borderless col-8 mx-auto">
 
     <tr>
       <th>
@@ -52,7 +52,7 @@
         <%= f.label :説明 %>
       </th>
       <td>
-        <%= f.text_field :body, class: "form-control" %>
+        <%= f.text_area :body, class: "form-control" %>
       </td>
     </tr>
   </table>
