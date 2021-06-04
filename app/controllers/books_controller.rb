@@ -1,7 +1,7 @@
 class BooksController < ApplicationController
 
   def index
-    @books = Book.all
+    @books = Book.all.order(id: :desc)
   end
 
   def show
@@ -9,7 +9,6 @@ class BooksController < ApplicationController
     @comments = @book.comments.order(id: :desc)
     @comment = Comment.new
     @user = @book.user
-
   end
 
   def new

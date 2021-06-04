@@ -7,6 +7,7 @@ class User < ApplicationRecord
   has_many :books, dependent: :destroy
   attachment :image
   has_many :comments, dependent: :destroy
+  has_many :likes, dependent: :destroy
 
   validates :name, presence: true, length: {maximum: 20}
   validates :email, length: {maximum: 30}

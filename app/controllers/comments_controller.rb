@@ -6,10 +6,14 @@ class CommentsController < ApplicationController
     @comment.book_id = @book.id
     if @comment.save
       flash[:notice] = "コメントしました。"
-      redirect_back(fallback_location: root_path)
+      redirect_to book_path(@book)
     else
       flash[:alert] = "内容を入力してください。"
-      redirect_back(fallback_location: root_path)
+      @book = Book.find(params[:book_id])
+      @comments = @book.comments.order(id: :desc)
+      @comment = Comment.new
+      @user = @book.user
+      render "books/show"
     end
   end
 

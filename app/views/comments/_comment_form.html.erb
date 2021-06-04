@@ -1,6 +1,6 @@
 <div class="row">
   <div class="col-6 mx-auto">
-    <%= form_with model: [book, comment], url: book_comments_path(book), local: true do |f| %>
+    <%= form_with model: [book, comment], url: book_comments_path(book), method: :post, local: true do |f| %>
       <%= f.hidden_field :book_id, value: book.id %>
       <%= f.label :コメント %>
       <div class="d-flex">

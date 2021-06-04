@@ -17,8 +17,8 @@
             <h5 class="card-title"><%= book.title %></h5>
             <p class="card-author"><%= book.author %></p>
             <hr>
-            <p class="card-text"><%= book.body %></p>
-            <p class="card-text"><small class="text-muted"><%= book.created_at %></small></p>
+            <p class="card-text"><%= book.body.truncate(30) %></p>
+            <p class="card-text"><small class="text-muted"><%= book.created_at.strftime("%Y-%m-%d　%H:%M") %></small></p>
             <% if book.user_id == current_user.id %>
               <%= link_to "編集", edit_book_path(book) %>
               <%= link_to "削除", book_path(book), method: :delete, data: {confirm: "本当に削除しますか？"} %>

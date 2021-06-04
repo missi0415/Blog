@@ -6,9 +6,10 @@ Rails.application.routes.draw do
   }
   root "homes#top"
 
-  resources :users
+  resources :users, only: [:index, :show, :create]
   resources :books do
     resources :comments, only: [:create, :destroy, :update]
+    resource :likes, only: [:create, :destroy]
   end
   resources :categories
 end
