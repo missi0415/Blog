@@ -5,25 +5,26 @@
   <hr class="my-4">
   <p>共有された参考書を調べて自分の力に！<br>
 </div>
-<br>
 
 <div class="card-deck">
   <% @users.each do |user| %>
-      <div class="col-4">
-      <%= link_to user_path(user), class: "link text-dark" do %>
+    <br>
+    <div class="col-4">
+      <%= link_to user_path(user), class: "link text-dark", style: "z-index: -2;" do %>
         <div class="card">
-          <%= attachment_image_tag user, :image, size: "318x300" %>
+          <%= attachment_image_tag user, :image, size: "318x300", class: "rounded" %>
           <div class="card-body">
             <h5 class="card-name"><%= user.name %></h5>
+            <p><%= user.introduction %></p>
             <hr>
             <h5>投稿書籍</h5>
-            <% user.books.each do |book| %>
+            <% user.books.limit(3).each do |book| %>
               <p class="card-books"><%= book.title %></p>
             <% end %>
           </div>
         </div>
       <% end %>
-      </div>
+    </div>
   <% end %>
 </div>
 <br>

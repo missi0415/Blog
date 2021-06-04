@@ -1,22 +1,28 @@
 <br>
 <div class="jumbotron">
-  <h1 class="display-4"><%= current_user.name %>のページ</h1>
-  <p class="lead">過去の投稿を確認しよう</p>
+  <% if current_user == @user %>
+    <h1 class="display-4">マイページ</h1>
+  <% else %>
+    <h1 class="display-4"><%= @user.name %>のページ</h1>
+  <% end %>
+  <%= attachment_image_tag @user, :image, size: "300x300", style: "border-radius: 50%;" %>
   <hr class="my-4">
-  <p>共有された参考書を調べて自分の力に！</p><br>
-
-  <%= link_to edit_user_registration_path(current_user), class: "btn btn-success" do %>
-    プロフィール編集
+  <h5><%= @user.introduction %></h5><br>
+  <p style="z-index: 2;"><%= render "relationships/follow", user: @user %></p>
+  <% if current_user.id == @user.id %>
+    <%= link_to edit_user_registration_path(current_user), class: "btn btn-success" do %>
+      プロフィール編集
+    <% end %>
   <% end %>
 </div>
-<br>
 
 <div class="card-deck">
   <% @books.each do |book| %>
-    <%= link_to book_path(book), class: "link text-dark" do %>
-      <div class="col-4">
+    <div class="col-4">
+      <br>
+      <%= link_to book_path(book), class: "link text-dark" do %>
         <div class="card">
-          <%= attachment_image_tag book, :image, size: "318x300" %>
+          <%= attachment_image_tag book, :image, size: "318x300", class: "rounded" %>
           <div class="card-body">
             <h5 class="card-title"><%= book.title %></h5>
             <p class="card-author"><%= book.author %></p>
@@ -29,8 +35,8 @@
             <% end %>
           </div>
         </div>
-      </div>
-    <% end %>
+      <% end %>
+    </div>
   <% end %>
 </div>
 <br>

@@ -9,7 +9,6 @@
 
 <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
   <%= bootstrap_devise_error_messages! %>
-  <%= render "layouts/flash" %>
 
   <table class="table table-borderless col-8 mx-auto">
     <tr>
@@ -32,12 +31,42 @@
 
     <tr>
       <th>
+        <%= f.label :紹介文 %>
+      </th>
+      <td>
+        <%= f.text_area :introduction, size: "20x10", class: "form-control", style: "resize: none;" %>
+      </td>
+    </tr>
+
+    <tr>
+      <th>
         <%= f.label :メールアドレス %>
       </th>
       <td>
         <%= f.email_field :email, class: "form-control" %>
       </td>
     </tr>
+
+    <tr>
+        <th>
+          <%= f.label :新しいパスワード %>
+          <% if @minimum_password_length %>
+          <em>(<%= @minimum_password_length %> 文字以上)</em>
+          <% end %>
+        </th>
+        <td>
+          <%= f.password_field :password, class: "form-control" %>
+        </td>
+      </tr>
+
+      <tr>
+        <th>
+          <%= f.label :確認用パスワード %>
+        </th>
+        <td>
+          <%= f.password_field :password_confirmation, class: "form-control" %>
+        </td>
+      </tr>
 
   </table>
 

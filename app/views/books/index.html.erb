@@ -1,6 +1,6 @@
 <br>
 <div class="jumbotron">
-  <h1 class="display-4">ようこそ<%= current_user.name %>さん！</h1>
+  <h1 class="display-4">ようこそ <%= current_user.name %> さん！</h1>
   <p class="lead">おすすめの参考書を紹介して共有しよう</p>
   <hr class="my-4">
   <p>共有された参考書を調べて自分の力に！<br></p>
@@ -9,14 +9,19 @@
 
 <div class="card-deck">
   <% @books.each do |book| %>
-    <%= link_to book_path(book), class: "link text-dark" do %>
-      <div class="col-4">
+    <div class="col-4">
+      <br>
+      <%= link_to book_path(book), class: "link text-dark" do %>
         <div class="card">
-          <%= attachment_image_tag book, :image, size: "318x300" %>
+          <%= attachment_image_tag book, :image, size: "318x300", class: "rounded" %>
           <div class="card-body">
             <h5 class="card-title"><%= book.title %></h5>
-            <p class="card-author"><%= book.author %></p>
+            <div class="d-flex justify-content-between">
+              <span class="card-author"><%= book.author %></span>
+              <span>❤︎<%= book.likes.count %></span>
+            </div>
             <hr>
+            <p class="card-user">投稿者：<%= book.user.name %></p>
             <p class="card-text"><%= book.body.truncate(30) %></p>
             <p class="card-text"><small class="text-muted"><%= book.created_at.strftime("%Y-%m-%d　%H:%M") %></small></p>
             <% if book.user_id == current_user.id %>
@@ -25,8 +30,8 @@
             <% end %>
           </div>
         </div>
-      </div>
-    <% end %>
+      <% end %>
+    </div>
   <% end %>
 </div>
 <br>
