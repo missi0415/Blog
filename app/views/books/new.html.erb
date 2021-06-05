@@ -6,20 +6,21 @@
   <p>共有された参考書を調べて自分の力に！<br>
 </div>
 <br>
-<%= form_with model: @book, local: true do |f| %>
+<%= form_with model: @book do |f| %>
+  <%= render "layouts/error_messages", model: f.object %>
   <%= f.hidden_field :user_id, value: current_user.id %>
 
   <table class="table table-borderless col-8 mx-auto">
 
     <tr>
       <th>
-        画像
+        <%= f.label :画像 %>
       </th>
       <td>
         <%= f.attachment_field :image %>
       </td>
-    
     </tr>
+
     <tr>
       <th>
         <%= f.label :タイトル %>
@@ -44,6 +45,15 @@
       </th>
       <td>
         <%= f.select :category_id, @categories.pluck(:name, :id),{include_blank: "カテゴリを選択してください。"}, class: "form-control" %>
+      </td>
+    </tr>
+
+    <tr>
+      <th>
+        <%= f.label :カテゴリ（その他） %>
+      </th>
+      <td>
+        <%= f.text_field :name, class: "form-control" %>
       </td>
     </tr>
 

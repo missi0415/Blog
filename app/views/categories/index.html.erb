@@ -1,0 +1,23 @@
+<br>
+<div class="jumbotron">
+  <h1 class="display-4">カテゴリ一覧</h1>
+  <p class="lead">おすすめの参考書を紹介して共有しよう</p>
+  <hr class="my-4">
+  <p>共有された参考書を調べて自分の力に！<br>
+</div>
+<br>
+
+<% @categories.each do |category| %>
+  <%= link_to category_path(category), class: "link text-dark" do %>
+    <div class="card col-8 mx-auto">
+      <div class="card-body">
+        <div class="col text-center align-items-center">
+            <br>
+            <h5><%= category.name %></h5>
+            <br>
+        </div>
+      </div>
+    </div>
+  <% end %>
+<% end %>
+<br>

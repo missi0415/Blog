@@ -5,10 +5,18 @@
   <% else %>
     <h1 class="display-4"><%= @user.name %>のページ</h1>
   <% end %>
-  <%= attachment_image_tag @user, :image, size: "300x300", style: "border-radius: 50%;" %>
+  <%= attachment_image_tag @user, :image, size: "300x300", style: "border-radius: 50%;", fallback: "no_image.jpeg" %>
+  <div class="d-flex justify-content-end">
+    <p class="m-3"><%= render "relationships/follow", user: @user %></p>&emsp;
+    <%= link_to user_following_path(@user) do %>
+      <h5 class="m-3">フォロー <%= @user.relationships.count %></h5>
+    <% end %>
+    <%= link_to user_followers_path(@user) do %>
+      <h5 class="m-3">フォロワー <%= @follower.count %></h5>
+    <% end %>
+  </div>
   <hr class="my-4">
   <h5><%= @user.introduction %></h5><br>
-  <p style="z-index: 2;"><%= render "relationships/follow", user: @user %></p>
   <% if current_user.id == @user.id %>
     <%= link_to edit_user_registration_path(current_user), class: "btn btn-success" do %>
       プロフィール編集
@@ -22,7 +30,7 @@
       <br>
       <%= link_to book_path(book), class: "link text-dark" do %>
         <div class="card">
-          <%= attachment_image_tag book, :image, size: "318x300", class: "rounded" %>
+          <%= attachment_image_tag book, :image, size: "318x300", class: "rounded", fallback: "no_image.jpeg" %>
           <div class="card-body">
             <h5 class="card-title"><%= book.title %></h5>
             <p class="card-author"><%= book.author %></p>

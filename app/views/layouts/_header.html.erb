@@ -26,8 +26,8 @@
             投稿
           </a>
           <div class="dropdown-menu text-center" aria-labelledby="navbarDropdownMenuLink">
-            <%= link_to "新規投稿", new_book_path %>
-            <%#= link_to "カテゴリ編集", edit_category_path %>
+            <a href="/books/new" class="dropdown-item">新規投稿</a>
+            <a href="/categories" class="dropdown-item" >カテゴリ一覧</a>
           </div>
         </li>
         <li class="nav-item active">
@@ -35,6 +35,11 @@
             <p class="nav-link">サインアウト</p>
           <% end %>
         </li>
+        <% if params[:controller] == "books" %>
+          <li class="nav-item">
+            <%= render "search_form" %>
+          </li>
+        <% end %>
       <% else %>
         <li class="nav-item active">
           <%= link_to new_user_registration_path do %>

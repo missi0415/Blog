@@ -22,6 +22,9 @@ class BooksController < ApplicationController
   end
 
   def create
+    if params[:book][:category_id] == ""
+      params[:book][:category_id] = Category.find_or_create_by(name: params[:book][:name]).id
+    end
     @book = Book.new(book_params)
     if @book.save
       flash[:notice] = "投稿しました。"
@@ -33,10 +36,14 @@ class BooksController < ApplicationController
   end
 
   def update
+    if params[:book][:category_id] == ""
+      params[:book][:category_id] = Category.find_or_create_by(name: params[:book][:name]).id
+    end
     @book = Book.find(params[:id])
     if @book.update(book_params)
       redirect_to books_path, notice: "編集を登録しました。"
     else
+      @categories = Category.all
       render :edit
     end
   end
@@ -46,6 +53,11 @@ class BooksController < ApplicationController
     @book.destroy
     redirect_back(fallback_location: root_path)
     flash[:notice] = "投稿を削除しました。"
+  end
+
+  def search
+    @keyword = params[:keyword]
+    @books = Book.where('title LIKE(?)', "%#{@keyword}%")
   end
 
   private

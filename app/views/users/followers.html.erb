@@ -1,0 +1,50 @@
+<br>
+<div class="jumbotron">
+    <h1 class="display-4"><%= @user.name %> のフォロワー一覧</h1>
+  <%= attachment_image_tag @user, :image, size: "300x300", style: "border-radius: 50%;", fallback: "no_image.jpeg" %>
+  <div class="d-flex justify-content-end">
+    <p class="m-3"><%= render "relationships/follow", user: @user %></p>&emsp;
+    <%= link_to user_following_path(@user) do %>
+      <h5 class="m-3">フォロー <%= @user.relationships.count %></h5>
+    <% end %>
+    <%= link_to user_followers_path(@user) do %>
+      <h5 class="m-3">フォロワー <%= @followers.count %></h5>
+    <% end %>
+  </div>
+  <hr class="my-4">
+  <h5><%= @user.introduction %></h5><br>
+  <% if current_user.id == @user.id %>
+    <%= link_to edit_user_registration_path(current_user), class: "btn btn-success" do %>
+      プロフィール編集
+    <% end %>
+  <% end %>
+</div>
+
+<% @followers.each do |follower| %>
+  <div class="card col-8 mx-auto">
+    <div class="card-body">
+      <div class="d-flex">
+        <div class="col-3 text-center">
+          <%= link_to user_path(follower), class: "link text-dark" do %>
+            <%= attachment_image_tag follower, :image, size: "100x100", style: "border-radius: 50%;", fallback: "no_image.jpeg" %>
+            <br><br>
+            <h5><%= follower.name %></h5>
+          <% end %>
+        </div>
+        <div class="col-9">
+          <div><%= follower.introduction %></div>
+        </div>
+      </div>
+      <div class="d-flex align-items-end justify-content-end">
+        <%= link_to user_following_path(follower) do %>
+          <p>フォロー<%= follower.followings.count %></p>
+        <% end %>
+        &emsp;
+        <%= link_to user_followers_path(follower) do %>
+          <p>フォロワー<%= follower.followers.count %></p>
+        <% end %>
+      </div>
+    </div>
+  </div>
+  <br>
+<% end %>

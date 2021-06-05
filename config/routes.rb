@@ -8,12 +8,15 @@ Rails.application.routes.draw do
 
   resources :users, only: [:index, :show, :create] do
     resource :relationships, only: [:create, :destroy]
+    get :following, :followers
   end
 
   resources :books do
     resources :comments, only: [:create, :destroy, :update]
     resource :likes, only: [:create, :destroy]
   end
+
+  get "/search", to: "books#search"
 
   resources :categories
 end

@@ -1,20 +1,29 @@
 <br>
 <div class="jumbotron">
-  <h1 class="display-4">投稿フォーム</h1>
-  <p class="lead">おすすめの参考書を紹介して共有しよう</p>
+  <h1 class="display-4">ユーザー一覧</h1>
+  <p class="lead">気になる人をフォローしよう</p>
   <hr class="my-4">
   <p>共有された参考書を調べて自分の力に！<br>
 </div>
 
 <div class="card-deck">
   <% @users.each do |user| %>
-    <br>
     <div class="col-4">
+      <br>
       <%= link_to user_path(user), class: "link text-dark", style: "z-index: -2;" do %>
         <div class="card">
-          <%= attachment_image_tag user, :image, size: "318x300", class: "rounded" %>
+          <%= attachment_image_tag user, :image, size: "318x300", class: "rounded", fallback: "no_image.jpeg" %>
           <div class="card-body">
-            <h5 class="card-name"><%= user.name %></h5>
+            <div class="d-flex justify-content-between">
+              <h5 class="card-name"><%= user.name %></h5>
+              <% if current_user.following?(user) %>
+                <h5 class="text-primary">フォロー中</h5>
+              <% end %>
+            </div>
+            <br>
+            <span>フォロー <%= user.followings.count %></span>
+            <span>フォロワー <%= user.followers.count %></span>
+            <br><br>
             <p><%= user.introduction %></p>
             <hr>
             <h5>投稿書籍</h5>
@@ -28,3 +37,6 @@
   <% end %>
 </div>
 <br>
+<ul id="pagination">
+  <li class="pagination"><%= paginate @users %></li>
+</ul>

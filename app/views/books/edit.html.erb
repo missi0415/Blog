@@ -8,9 +8,10 @@
 </div>
 <br>
 <%= form_with model: @book, local: true do |f| %>
+  <%= render "layouts/error_messages", model: f.object %>
   <%= f.hidden_field :user_id, value: current_user.id %>
 
-  <table class="table table-borderless">
+  <table class="table table-borderless col-8 mx-auto">
 
     <tr>
       <th>
@@ -19,7 +20,7 @@
       <td>
         <%= f.attachment_field :image %>
       </td>
-    
+
     </tr>
     <tr>
       <th>
@@ -45,6 +46,15 @@
       </th>
       <td>
         <%= f.select :category_id, @categories.pluck(:name, :id),{include_blank: "カテゴリを選択してください。"}, class: "form-control" %>
+      </td>
+    </tr>
+
+    <tr>
+      <th>
+        <%= f.label :カテゴリ（その他） %>
+      </th>
+      <td>
+        <%= f.text_field :name, class: "form-control" %>
       </td>
     </tr>
 
