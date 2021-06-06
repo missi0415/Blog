@@ -1,0 +1,25 @@
+<br>
+<div class="jumbotron">
+  <h1 class="display-4"><%= @user.name %> さんとのチャット</h1>
+  <p class="lead">交流して知識を増やそう</p>
+  <hr class="my-4">
+  <p>共有された参考書を調べて自分の力に！<br></p>
+</div>
+
+<div class="row">
+  <div class="col-6 mx-auto">
+    <%= form_with model: @chat, local: false do |f| %>
+      <%= f.hidden_field :room_id %>
+      <%= f.label :コメント %>
+      <div class="d-flex">
+        <%= f.text_area :message, class: "form-control", style: "resize: none;" %>
+        <%= f.submit "投稿", class: "btn btn-primary m-3" %>
+      </div>
+    <% end %>
+  </div>
+</div>
+<br><br>
+<div class="chats">
+  <%= render "chat", chats: @chats %>
+</div>
+<br>

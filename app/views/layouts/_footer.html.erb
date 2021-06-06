@@ -4,21 +4,21 @@
     <!--Grid row-->
     <div class="row">
       <!--Grid column-->
+      <% if user_signed_in? %>
+
       <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
-        <h5 class="text-uppercase">Links</h5>
+        <h5 class="text-uppercase">ユーザーページ</h5>
 
         <ul class="list-unstyled mb-0">
           <li>
-            <a href="#!" class="text-dark">Link 1</a>
+            <%= link_to user_path(current_user) do %>
+              <p class="text-dark">マイページ</p>
+            <% end %>
           </li>
           <li>
-            <a href="#!" class="text-dark">Link 2</a>
-          </li>
-          <li>
-            <a href="#!" class="text-dark">Link 3</a>
-          </li>
-          <li>
-            <a href="#!" class="text-dark">Link 4</a>
+            <%= link_to users_path do%>
+              <p class="text-dark">ユーザー一覧</p>
+            <% end %>
           </li>
         </ul>
       </div>
@@ -26,20 +26,16 @@
 
       <!--Grid column-->
       <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
-        <h5 class="text-uppercase mb-0">Links</h5>
+        <h5 class="text-uppercase">書籍ページ</h5>
 
         <ul class="list-unstyled">
           <li>
-            <a href="#!" class="text-dark">Link 1</a>
+            <%= link_to books_path do %>
+              <p class="text-dark">書籍一覧</p>
+            <% end %>
           </li>
           <li>
-            <a href="#!" class="text-dark">Link 2</a>
-          </li>
-          <li>
-            <a href="#!" class="text-dark">Link 3</a>
-          </li>
-          <li>
-            <a href="#!" class="text-dark">Link 4</a>
+            <a href="/categories" class="text-dark" >カテゴリ</a>
           </li>
         </ul>
       </div>
@@ -47,20 +43,11 @@
 
       <!--Grid column-->
       <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
-        <h5 class="text-uppercase">Links</h5>
+        <h5 class="text-uppercase">投稿ページ</h5>
 
         <ul class="list-unstyled mb-0">
           <li>
-            <a href="#!" class="text-dark">Link 1</a>
-          </li>
-          <li>
-            <a href="#!" class="text-dark">Link 2</a>
-          </li>
-          <li>
-            <a href="#!" class="text-dark">Link 3</a>
-          </li>
-          <li>
-            <a href="#!" class="text-dark">Link 4</a>
+            <a href="/books/new" class="text-dark">新規投稿</a>
           </li>
         </ul>
       </div>
@@ -68,24 +55,33 @@
 
       <!--Grid column-->
       <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
-        <h5 class="text-uppercase mb-0">Links</h5>
+        <h5 class="text-uppercase">ログイン状態</h5>
 
         <ul class="list-unstyled">
           <li>
-            <a href="#!" class="text-dark">Link 1</a>
-          </li>
-          <li>
-            <a href="#!" class="text-dark">Link 2</a>
-          </li>
-          <li>
-            <a href="#!" class="text-dark">Link 3</a>
-          </li>
-          <li>
-            <a href="#!" class="text-dark">Link 4</a>
+            <%= link_to destroy_user_session_path, method: :delete do %>
+              <p class="text-dark">サインアウト</p>
+            <% end %>
           </li>
         </ul>
       </div>
       <!--Grid column-->
+      <% else %>
+      <div class="col mx-auto">
+        <ul class="list-unstyled mb-0">
+          <li>
+            <%= link_to new_user_registration_path do %>
+              <p class="text-dark">新規登録</p>
+            <% end %>
+          </li>
+          <li class="nav-item active">
+            <%= link_to new_user_session_path do %>
+              <p class="text-dark">ログイン</p>
+            <% end %>
+          </li>
+        </ul>
+      </div>
+      <% end %>
     </div>
     <!--Grid row-->
   </div>
@@ -93,8 +89,7 @@
 
   <!-- Copyright -->
   <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
-    © 2020 Copyright:
-    <a class="text-dark" href="https://mdbootstrap.com/">MDBootstrap.com</a>
+    © 2021 Reference Book BLOG
   </div>
   <!-- Copyright -->
 </footer>

@@ -18,5 +18,8 @@ Rails.application.routes.draw do
 
   get "/search", to: "books#search"
 
-  resources :categories
+  resources :categories, only: [:index, :create, :show]
+
+  resources :chats, only: [:create]
+  get "chat/:id" => "chats#show", as: "chat"
 end

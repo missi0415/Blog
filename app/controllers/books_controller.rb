@@ -1,24 +1,20 @@
 class BooksController < ApplicationController
 
   def index
-    @books = Book.all.order(id: :desc)
+
+    @books = Book.includes(:user, :category).order(id: :desc)
   end
 
   def show
     @book = Book.find(params[:id])
-    @comments = @book.comments.order(id: :desc)
+    @comments = @book.comments.includes(:user).order(id: :desc)
     @comment = Comment.new
     @user = @book.user
   end
 
   def new
     @book = Book.new
-    @categories = Category.all
-  end
-
-  def edit
-    @book = Book.find(params[:id])
-    @categories = Category.all
+    @categories = Category.preload(:user).order(:name)
   end
 
   def create
@@ -30,7 +26,7 @@ class BooksController < ApplicationController
       flash[:notice] = "投稿しました。"
       redirect_to books_path
     else
-      @categories = Category.all
+      @categories = Category.preload(:user).order(:name)
       render :new
     end
   end
@@ -43,7 +39,7 @@ class BooksController < ApplicationController
     if @book.update(book_params)
       redirect_to books_path, notice: "編集を登録しました。"
     else
-      @categories = Category.all
+      @categories = Category.preload(:user).order(:name)
       render :edit
     end
   end
