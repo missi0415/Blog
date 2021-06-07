@@ -15,8 +15,9 @@ class User < ApplicationRecord
   has_many :chats, dependent: :destroy
   has_many :user_rooms, dependent: :destroy
 
-  validates :name, presence: true, length: {maximum: 20}
-  validates :email, length: {maximum: 30}
+  validates :name, presence: true, length: {maximum: 30}
+  validates :email, uniqueness: true, length: {maximum: 50}
+  validates :introduction, presence: true, length: {maximum: 200}
 
   def update_without_current_password(params, *options)
 
@@ -44,5 +45,7 @@ class User < ApplicationRecord
   def following?(other_user)
     self.followings.include?(other_user)
   end
+  # idハッシュ化
+  include Hashid::Rails
 
 end

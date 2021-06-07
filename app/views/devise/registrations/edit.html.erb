@@ -1,3 +1,5 @@
+
+<% breadcrumb :user_edit %>
 <br>
 <div class="jumbotron">
   <h1 class="display-4">プロフィール編集</h1>
@@ -31,7 +33,7 @@
 
     <tr>
       <th>
-        <%= f.label :紹介文 %>
+        <%= f.label :紹介文（200文字以下） %>
       </th>
       <td>
         <%= f.text_area :introduction, size: "20x10", class: "form-control", style: "resize: none;" %>

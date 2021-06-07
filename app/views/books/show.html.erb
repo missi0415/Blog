@@ -1,3 +1,4 @@
+<% breadcrumb :book_show, @book %>
 <br>
 <div class="jumbotron">
   <h1 class="display-4">投稿詳細</h1>
@@ -12,11 +13,15 @@
       <%= attachment_image_tag @book, :image, size: "698x500" %>
       <div class="card-body">
         <h5 class="card-title"><%= @book.title %></h5>
+        <p class="card-author"><%= @book.author %></p>
         <div class="d-flex justify-content-between">
-          <span class="card-author"><%= @book.author %></span>
+          <span>カテゴリ：<%= @book.category.name %></span>
           <span id="like"><%= render "likes/like", book: @book, like: @like %></span>
         </div>
         <hr>
+        <%= link_to user_path(@book.user), class: "link text-dark" do %>
+          <p>投稿者：<%= @book.user.name %></p>
+        <% end %>
         <p class="card-text"><%= @book.body %></p>
         <p class="card-text"><small class="text-muted"><%= @book.created_at.strftime("%Y-%m-%d　%H:%M") %></small></p>
         <% if @book.user_id == current_user.id %>

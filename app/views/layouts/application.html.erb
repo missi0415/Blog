@@ -16,7 +16,8 @@
   <body>
     <%= render "layouts/header" %>
     <div class="container">
-      <%#= bootstrap_devise_error_messages! %>
+      <%#= breadcrumbs separator: " &rsaquo; " %>
+      <%= breadcrumbs separator: " > " %>
       <%= render "layouts/flash" %>
       <%= yield %>
     </div>
