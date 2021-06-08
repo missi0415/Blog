@@ -13,6 +13,8 @@ crumb :user_show do |user|
     user = User.find(params[:user_id])
   elsif params[:action] == "edit"
     user = User.find(params[:format])
+  elsif params[:commit] == "更新"
+    user = current_user
   end
 
   if user.name == current_user.name
@@ -24,8 +26,7 @@ crumb :user_show do |user|
 end
 
 crumb :user_edit do
-  user = User.find(params[:format])
-  link "プロフィール編集", edit_user_registration_path(user)
+  link "プロフィール編集", edit_user_registration_path(current_user)
   parent :user_show
 end
 
@@ -50,6 +51,11 @@ end
 
 crumb :book_show do |book|
   link "#{book.title} の詳細", book_path(book)
+  parent :book_index
+end
+
+crumb :book_search do |book|
+  link "#{params[:keyword]} の検索結果", search_path
   parent :book_index
 end
 

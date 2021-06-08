@@ -1,8 +1,7 @@
 class BooksController < ApplicationController
 
   def index
-
-    @books = Book.includes(:user, :category).order(id: :desc)
+    @books = Book.includes(:user, :category).order(id: :desc).page(params[:page]).per(15)
   end
 
   def show
@@ -53,7 +52,7 @@ class BooksController < ApplicationController
 
   def search
     @keyword = params[:keyword]
-    @books = Book.where('title LIKE(?)', "%#{@keyword}%")
+    @books = Book.where('title LIKE(?) OR author LIKE(?)', "%#{@keyword}%","%#{@keyword}%").includes(:user, :category).page(params[:page]).per(15)
   end
 
   private

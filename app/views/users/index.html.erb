@@ -11,7 +11,7 @@
   <% @users.each do |user| %>
     <div class="col-4">
       <br>
-      <%= link_to user_path(user), class: "link text-dark", style: "z-index: -2;" do %>
+      <%= link_to user_path(user), id: "users#{user.id}", class: "link text-dark", style: "z-index: -2;" do %>
         <div class="card">
           <%= attachment_image_tag user, :image, size: "318x300", class: "rounded", fallback: "no_image.jpeg" %>
           <div class="card-body">

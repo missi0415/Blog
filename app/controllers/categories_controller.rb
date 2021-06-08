@@ -6,7 +6,7 @@ class CategoriesController < ApplicationController
 
   def show
     @category = Category.find(params[:id])
-    @books = Book.where(category_id: @category.id).page(params[:page]).per(15)
+    @books = Book.where(category_id: @category.id).includes(:user, :category).page(params[:page]).per(15)
   end
 
   def create

@@ -3,7 +3,6 @@ require 'rails_helper'
 RSpec.describe User, type: :model do
   describe 'ユーザーバリデーションのテスト' do
     let(:user_test) { build(:user_test) }
-    let!(:other_user) { create(:user_test) }
 
     it 'バリデーションが有効なこと' do
       expect(user_test).to be_valid
@@ -14,11 +13,6 @@ RSpec.describe User, type: :model do
       it 'メールアドレスが空欄でないこと' do
         user_test.email = ''
         expect(user_test).to be_invalid
-      end
-
-      it 'メールアドレスが一意であること' do
-        user_test.name = other_user.name
-        is_expected.to eq false
       end
 
       it 'メールアドレスが51字以上でないこと' do
