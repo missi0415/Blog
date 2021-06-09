@@ -118,10 +118,6 @@ GEM
     gretel (4.2.0)
       actionview (>= 5.1, < 7.0)
       railties (>= 5.1, < 7.0)
-    hashid-rails (1.4.1)
-      activerecord (>= 4.0)
-      hashids (~> 1.0)
-    hashids (1.0.5)
     http-accept (1.7.0)
     http-cookie (1.0.3)
       domain_name (~> 0.5)
@@ -323,7 +319,6 @@ DEPENDENCIES
   factory_bot_rails
   faker
   gretel
-  hashid-rails (~> 1.0)
   jbuilder (~> 2.7)
   jquery-rails
   kaminari

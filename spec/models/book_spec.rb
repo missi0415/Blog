@@ -2,8 +2,15 @@ require 'rails_helper'
 
 RSpec.describe Book, type: :model do
   describe '書籍バリデーションのテスト' do
-    let (:category) {FactoryBot.build(:category)}
-    let (:book) {FactoryBot.build(:book)}
+    User.create(
+    name:     Faker::Name.unique.name,
+    email:    Faker::Internet.unique.email,
+    password: 'password'
+    )
+    Category.create(
+      name: Faker::Name.unique.name
+    )
+    let (:book) {build(:book)}
 
     it 'バリデーションが有効なこと' do
       expect(book).to be_valid

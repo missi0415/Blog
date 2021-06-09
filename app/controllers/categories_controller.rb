@@ -1,7 +1,7 @@
 class CategoriesController < ApplicationController
 
   def index
-    @categories = Category.order(:name).page(params[:page]).per(20)
+    @categories = Category.order(name: :desc).page(params[:page]).per(20)
   end
 
   def show

@@ -4,8 +4,8 @@ describe 'ユーザログイン後のテスト' do
   describe '書籍一覧のテスト' do
     before do
       visit new_user_registration_path
-      fill_in 'user_name', with: 'テスト'
-      fill_in 'user_email', with: 'example@example.com'
+      fill_in 'user_name', with: Faker::Name.unique.name
+      fill_in 'user_email', with: Faker::Internet.unique.email
       fill_in 'user_password', with: 'testtest'
       fill_in 'user_password_confirmation', with: 'testtest'
       click_button '登録'
@@ -21,19 +21,19 @@ describe 'ユーザログイン後のテスト' do
       end
 
       it '投稿記事の詳細ページへのリンク先が正しい' do
-        find('#books7').click
-        expect(current_path).to eq book_path(7)
+        find("#books#{Book.last.id}").click
+        expect(current_path).to eq book_path(Book.last.id)
       end
     end
 
     context 'マイページのテスト' do
       it 'マイページへのリンク先が正しい' do
         find('#mypage').click
-        expect(current_path).to eq '/users/8r9tZb'
+        expect(current_path).to eq user_path(User.last.id)
       end
 
       before do
-        visit '/users/8r9tZb'
+        visit user_path(User.last.id)
       end
 
       it 'マイページの表示が正しい' do
@@ -52,13 +52,13 @@ describe 'ユーザログイン後のテスト' do
 
     context 'プロフィール編集のテスト' do
       it 'プロフィール編集ボタンでプロフィール編集画面へ遷移すること' do
-        visit '/users/8r9tZb'
+        visit user_path(User.last.id)
         click_on 'プロフィール編集'
-        expect(current_path).to eq "/users/edit.8r9tZb"
+        expect(current_path).to eq "/users/edit.#{User.last.id}"
       end
 
       before do
-        visit "/users/edit.8r9tZb"
+        visit "/users/edit.#{User.last.id}"
       end
 
       it 'パンくずリストの表示が正しい' do
@@ -79,7 +79,7 @@ describe 'ユーザログイン後のテスト' do
 
         find('#signout').click
         visit new_user_session_path
-        fill_in 'user_email', with: 'example@example.com'
+        fill_in 'user_email', with: User.last.email
         fill_in 'user_password', with: 'henkou'
         click_button 'ログイン'
         expect(page).to have_content('ログインしました')
@@ -93,10 +93,10 @@ describe 'ユーザログイン後のテスト' do
       end
 
       it '戻るボタンを押すと1ページ前へ遷移すること' do
-        visit '/users/8r9tZb'
+        visit user_path(User.last.id)
         click_on 'プロフィール編集'
         click_on '戻る'
-        expect(current_path).to eq '/users/8r9tZb'
+        expect(current_path).to eq user_path(User.last.id)
       end
 
       it '退会するボタンを押すと退会できること' do
@@ -120,24 +120,24 @@ describe 'ユーザログイン後のテスト' do
       end
 
       it 'ユーザー一覧の表示が正しいこと' do
-        expect(page).to have_content(User.find(11).name)
-        expect(page).to have_content(User.find(12).name)
+        expect(page).to have_content(User.find(User.last.id - 1).name)
+        expect(page).to have_content(User.last.name)
       end
 
       it 'ユーザーのユーザー詳細へのリンク先が正しいこと' do
-        find('#users11').click
-        expect(current_path).to eq "/users/boztvx"
-        expect(page).to have_content(User.find(11).name)
+        find("#users#{User.last.id}").click
+        expect(current_path).to eq user_path(User.last.id)
+        expect(page).to have_content("マイページ")
       end
     end
 
     context 'ユーザー詳細ページのテスト' do
       before do
-        visit "/users/boztvx"
+        visit user_path(User.last.id - 1)
       end
 
       it 'パンくずリストの表示が正しいこと' do
-        expect(page).to have_content('トップページ > ユーザー一覧 > '+ User.find(11).name + ' さんの詳細')
+        expect(page).to have_content('トップページ > ユーザー一覧 > '+ User.find(User.last.id - 1).name + ' さんの詳細')
       end
 
       it 'チャットボタンが表示されること' do
@@ -149,8 +149,8 @@ describe 'ユーザログイン後のテスト' do
       end
 
       it 'ユーザーの表示が正しいこと' do
-        expect(page).to have_content(User.find(11).name + 'のページ')
-        expect(page).to have_content(User.find(11).introduction)
+        expect(page).to have_content(User.find(User.last.id - 1).name + 'のページ')
+        expect(page).to have_content(User.find(User.last.id - 1).introduction)
       end
 
       it 'フォローするボタンを押すとフォローができること' do
@@ -171,59 +171,59 @@ describe 'ユーザログイン後のテスト' do
       end
 
       it 'フォローするとフォローの表示が1増えること' do
-        visit '/users/8r9tZb'
+        visit user_path(User.last.id)
         expect(page).to have_content('フォロー 0')
-        visit "/users/boztvx"
+        visit user_path(User.last.id - 1)
         click_on 'フォローする'
-        visit '/users/8r9tZb'
+        visit user_path(User.last.id)
         expect(page).to have_content('フォロー 1')
       end
 
       it 'チャットボタンを押すとチャットページへ遷移すること' do
         click_on 'チャット'
-        expect(page).to have_content(User.find(11).name + ' さんとのチャット')
+        expect(page).to have_content(User.find(User.last.id - 1).name + ' さんとのチャット')
       end
     end
 
     context 'チャットのテスト' do
       before do
-        visit chat_path(11)
+        visit chat_path(User.last.id - 1)
       end
 
       it 'パンくずリストの表示が正しいこと' do
-        expect(page).to have_content('トップページ > ユーザー一覧 > ' + User.find(11).name + ' さんの詳細 > ' + User.find(11).name + ' さんとのチャット')
+        expect(page).to have_content('トップページ > ユーザー一覧 > ' + User.find(User.last.id - 1).name + ' さんの詳細 > ' + User.find(User.last.id - 1).name + ' さんとのチャット')
       end
     end
 
     context 'フォローのテスト' do
       before do
-        visit "/users/boztvx"
+        visit user_path(User.last.id - 1)
         click_on 'フォローする'
-        visit "/users/8r9tZb/following"
+        visit "/users/#{User.last.id}/following"
       end
 
       it 'パンくずリストの表示が正しいこと' do
-        expect(page).to have_content('トップページ > ユーザー一覧 > マイページ > ' + User.find(12).name + ' さんのフォロー')
+        expect(page).to have_content('トップページ > ユーザー一覧 > マイページ > ' + User.find(User.last.id).name + ' さんのフォロー')
       end
 
       it 'フォローの表示が正しい' do
-        expect(page).to have_content(User.find(11).name)
+        expect(page).to have_content(User.find(User.last.id - 1).name)
       end
     end
 
     context 'フォロワーのテスト' do
       before do
-        visit "/users/boztvx"
+        visit user_path(User.last.id - 1)
         click_on 'フォローする'
-        visit "/users/boztvx/followers"
+        visit user_followers_path(User.last.id - 1)
       end
 
       it 'パンくずリストの表示が正しいこと' do
-        expect(page).to have_content('トップページ > ユーザー一覧 > ' + User.find(11).name + ' さんの詳細 > ' + User.find(11).name + ' さんのフォロワー')
+        expect(page).to have_content('トップページ > ユーザー一覧 > ' + User.find(User.last.id - 1).name + ' さんの詳細 > ' + User.find(User.last.id - 1).name + ' さんのフォロワー')
       end
 
       it 'フォロワーの表示が正しい' do
-        expect(page).to have_content(User.find(12).name)
+        expect(page).to have_content(User.last.name)
         expect(page).to have_content('フォロワー 1')
       end
     end
@@ -272,13 +272,12 @@ describe 'ユーザログイン後のテスト' do
         )
         new_category.save
         visit current_path
-        expect(page).to have_content(Category.first.name)
         expect(page).to have_content(Category.last.name)
       end
 
       it 'カテゴリ詳細へのリンク先が正しいこと' do
-        find('#category1').click
-        expect(current_path).to eq category_path(1)
+        find("#category#{Category.last.id}").click
+        expect(current_path).to eq category_path(Category.last.id)
       end
     end
 

@@ -1,7 +1,7 @@
 FactoryBot.define do
 
   factory :book, class: 'Book' do
-    user_id       {'11'}
+    user_id       {'1'}
     title         { Faker::Book.title }
     author        { Faker::Book.author }
     category_id   {'1'}
