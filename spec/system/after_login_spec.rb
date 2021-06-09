@@ -1,13 +1,11 @@
 require 'rails_helper'
 
-@user = User.find(11)
-
 describe 'ユーザログイン後のテスト' do
   describe '書籍一覧のテスト' do
     before do
       visit new_user_registration_path
       fill_in 'user_name', with: 'テスト'
-      fill_in 'user_email', with: 'tes@example.com'
+      fill_in 'user_email', with: 'example@example.com'
       fill_in 'user_password', with: 'testtest'
       fill_in 'user_password_confirmation', with: 'testtest'
       click_button '登録'
@@ -31,11 +29,11 @@ describe 'ユーザログイン後のテスト' do
     context 'マイページのテスト' do
       it 'マイページへのリンク先が正しい' do
         find('#mypage').click
-        expect(current_path).to eq '/users/bznt1b'
+        expect(current_path).to eq '/users/8r9tZb'
       end
 
       before do
-        visit '/users/bznt1b'
+        visit '/users/8r9tZb'
       end
 
       it 'マイページの表示が正しい' do
@@ -54,13 +52,13 @@ describe 'ユーザログイン後のテスト' do
 
     context 'プロフィール編集のテスト' do
       it 'プロフィール編集ボタンでプロフィール編集画面へ遷移すること' do
-        visit '/users/bznt1b'
+        visit '/users/8r9tZb'
         click_on 'プロフィール編集'
-        expect(current_path).to eq "/users/edit.bznt1b"
+        expect(current_path).to eq "/users/edit.8r9tZb"
       end
 
       before do
-        visit "/users/edit.bznt1b"
+        visit "/users/edit.8r9tZb"
       end
 
       it 'パンくずリストの表示が正しい' do
@@ -81,7 +79,7 @@ describe 'ユーザログイン後のテスト' do
 
         find('#signout').click
         visit new_user_session_path
-        fill_in 'user_email', with: 'tes@example.com'
+        fill_in 'user_email', with: 'example@example.com'
         fill_in 'user_password', with: 'henkou'
         click_button 'ログイン'
         expect(page).to have_content('ログインしました')
@@ -95,10 +93,10 @@ describe 'ユーザログイン後のテスト' do
       end
 
       it '戻るボタンを押すと1ページ前へ遷移すること' do
-        visit '/users/bznt1b'
+        visit '/users/8r9tZb'
         click_on 'プロフィール編集'
         click_on '戻る'
-        expect(current_path).to eq '/users/bznt1b'
+        expect(current_path).to eq '/users/8r9tZb'
       end
 
       it '退会するボタンを押すと退会できること' do
@@ -172,6 +170,15 @@ describe 'ユーザログイン後のテスト' do
         expect(page).to have_content('フォロワー 1')
       end
 
+      it 'フォローするとフォローの表示が1増えること' do
+        visit '/users/8r9tZb'
+        expect(page).to have_content('フォロー 0')
+        visit "/users/boztvx"
+        click_on 'フォローする'
+        visit '/users/8r9tZb'
+        expect(page).to have_content('フォロー 1')
+      end
+
       it 'チャットボタンを押すとチャットページへ遷移すること' do
         click_on 'チャット'
         expect(page).to have_content(User.find(11).name + ' さんとのチャット')
@@ -183,10 +190,135 @@ describe 'ユーザログイン後のテスト' do
         visit chat_path(11)
       end
 
-      it 'チャットが投稿できること' do
-        fill_in 'chat_message', with: 'チャット'
-        click_button '投稿'
-        expect(page).to have_content('チャット')
+      it 'パンくずリストの表示が正しいこと' do
+        expect(page).to have_content('トップページ > ユーザー一覧 > ' + User.find(11).name + ' さんの詳細 > ' + User.find(11).name + ' さんとのチャット')
+      end
+    end
+
+    context 'フォローのテスト' do
+      before do
+        visit "/users/boztvx"
+        click_on 'フォローする'
+        visit "/users/8r9tZb/following"
+      end
+
+      it 'パンくずリストの表示が正しいこと' do
+        expect(page).to have_content('トップページ > ユーザー一覧 > マイページ > ' + User.find(12).name + ' さんのフォロー')
+      end
+
+      it 'フォローの表示が正しい' do
+        expect(page).to have_content(User.find(11).name)
+      end
+    end
+
+    context 'フォロワーのテスト' do
+      before do
+        visit "/users/boztvx"
+        click_on 'フォローする'
+        visit "/users/boztvx/followers"
+      end
+
+      it 'パンくずリストの表示が正しいこと' do
+        expect(page).to have_content('トップページ > ユーザー一覧 > ' + User.find(11).name + ' さんの詳細 > ' + User.find(11).name + ' さんのフォロワー')
+      end
+
+      it 'フォロワーの表示が正しい' do
+        expect(page).to have_content(User.find(12).name)
+        expect(page).to have_content('フォロワー 1')
+      end
+    end
+
+    context '書籍投稿のテスト' do
+      it '投稿フォームに遷移すること' do
+        find('#book_new').click
+        expect(current_path).to eq new_book_path
+      end
+
+      before do
+        visit new_book_path
+      end
+
+      it 'パンくずリストの表示が正しいこと' do
+        expect(page).to have_content('トップページ > 投稿フォーム')
+      end
+
+      it '内容を入力しないとエラーメッセージが表示されること' do
+        click_button '登録'
+        expect(page).to have_content('カテゴリを入力してください')
+        expect(page).to have_content('タイトルを入力してください')
+        expect(page).to have_content('著者を入力してください')
+        expect(page).to have_content('内容を入力してください')
+        expect(page).to have_content('画像を入力してください')
+      end
+    end
+
+    context 'カテゴリ一覧のテスト' do
+      it 'カテゴリ一覧へ遷移すること' do
+        find('#category_index').click
+        expect(current_path).to eq categories_path
+      end
+
+      before do
+        visit categories_path
+      end
+
+      it 'パンくずリストの表示が正しいこと' do
+        expect(page).to have_content('トップページ > カテゴリ一覧')
+      end
+
+      it 'カテゴリ一覧が表示されていること' do
+        new_category = Category.new(
+          name: "テスト"
+        )
+        new_category.save
+        visit current_path
+        expect(page).to have_content(Category.first.name)
+        expect(page).to have_content(Category.last.name)
+      end
+
+      it 'カテゴリ詳細へのリンク先が正しいこと' do
+        find('#category1').click
+        expect(current_path).to eq category_path(1)
+      end
+    end
+
+    context 'カテゴリ詳細のテスト' do
+      before do
+        visit category_path(1)
+      end
+
+      it 'パンくずリストの表示が正しいこと' do
+        expect(page).to have_content('トップページ > カテゴリ一覧 > ' + Category.first.name + ' の詳細')
+      end
+
+      it 'カテゴリ詳細の表示が正しいこと' do
+        expect(page).to have_content(Book.find_by(category_id: Category.first.id).title)
+        expect(page).to have_content(Book.find_by(category_id: Category.first.id).author)
+        expect(page).to have_content(Book.find_by(category_id: Category.first.id).body)
+        expect(page).to have_content(Book.find_by(category_id: Category.first.id).user.name)
+      end
+    end
+
+    context '検索ページのテスト' do
+      it 'コントローラーがブックのページだけ検索フォームが表示されること' do
+        expect(page).to have_css('#search_form')
+        visit new_book_path
+        expect(page).to have_css('#search_form')
+        visit book_path(1)
+        expect(page).to have_css('#search_form')
+      end
+
+      it '検索結果が正しいこと' do
+        find('.form-control.w-75').set(Book.first.title)
+        click_button '検索'
+        expect(page).to have_content(Book.first.title + ' の検索結果')
+        expect(page).to have_content(Book.first.author)
+      end
+
+      it '何も入力せず検索すると書籍一覧へ遷移すること' do
+        visit new_book_path
+        click_button '検索'
+        expect(current_path).to eq books_path
       end
     end
 

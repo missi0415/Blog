@@ -31,7 +31,7 @@ describe 'ユーザログイン前のテスト' do
       before do
         visit new_user_registration_path
         fill_in 'user_name', with: 'テスト'
-        fill_in 'user_email', with: 'tes@example.com'
+        fill_in 'user_email', with: 'testtest@example.com'
         fill_in 'user_password', with: 'testtest'
         fill_in 'user_password_confirmation', with: 'testtest'
         click_button '登録'
@@ -45,7 +45,7 @@ describe 'ユーザログイン前のテスト' do
         find('#signout').click
         visit new_user_registration_path
         fill_in 'user_name', with: 'テスト2'
-        fill_in 'user_email', with: 'tes@example.com'
+        fill_in 'user_email', with: 'testtest@example.com'
         fill_in 'user_password', with: 'testtest'
         fill_in 'user_password_confirmation', with: 'testtest'
         click_button '登録'

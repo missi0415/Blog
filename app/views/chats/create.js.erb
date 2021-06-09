@@ -2,9 +2,9 @@ $('.chats').html('<%= j(render "chat", chats: @chats) %>');
 $('textarea').val('');
 if ($('#chat_error') != "") {
 
-  <% if params[:chat][:message] == "" %>
-  $('#chat_error').html("内容を入力してください")
-  $(function(){
+<% if params[:chat][:message] == "" %>
+$('#chat_error').html("内容を入力してください")
+$(function(){
 	setTimeout(function(){
 		$('#chat_error').html('')
 	},4000);

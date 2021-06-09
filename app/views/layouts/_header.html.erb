@@ -12,8 +12,8 @@
           <% end %>
         </li>
         <li class="nav-item">
-          <%= link_to books_path do %>
-            <p class="nav-link">書籍一覧</p>
+          <%= link_to new_book_path, id: "book_new" do %>
+            <p class="nav-link">新規投稿</p>
           <% end %>
         </li>
         <li class="nav-item">
@@ -23,11 +23,11 @@
         </li>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            投稿
+            書籍
           </a>
           <div class="dropdown-menu text-center" aria-labelledby="navbarDropdownMenuLink">
-            <a href="/books/new" class="dropdown-item">新規投稿</a>
-            <a href="/categories" class="dropdown-item" >カテゴリ</a>
+            <a href="/books" class="dropdown-item" id="book_index">一覧</a>
+            <a href="/categories" class="dropdown-item" id="category_index">カテゴリ</a>
           </div>
         </li>
         <li class="nav-item active">
@@ -36,7 +36,7 @@
           <% end %>
         </li>
         <% if params[:controller] == "books" %>
-          <li class="nav-item">
+          <li class="nav-item" id="search_form">
             <%= render "search_form" %>
           </li>
         <% end %>

@@ -52,6 +52,9 @@ class BooksController < ApplicationController
 
   def search
     @keyword = params[:keyword]
+    if @keyword == ""
+      redirect_to books_path
+    end
     @books = Book.where('title LIKE(?) OR author LIKE(?)', "%#{@keyword}%","%#{@keyword}%").includes(:user, :category).page(params[:page]).per(15)
   end
 

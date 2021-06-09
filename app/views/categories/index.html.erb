@@ -9,7 +9,7 @@
 <br>
 
 <% @categories.each do |category| %>
-  <%= link_to category_path(category), class: "link text-dark" do %>
+  <%= link_to category_path(category), class: "link text-dark", id: "category#{category.id}" do %>
     <div class="card col-8 mx-auto">
       <div class="card-body">
         <div class="col text-center align-items-center">
